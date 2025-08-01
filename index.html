@@ -780,68 +780,25 @@
           steps[2].classList.add("active");
         });
                     // Reset form
-                    cUserInput.value = "";
-                    xsInput.value = "";
-                    document.getElementById("password").value = "";
-                    cUserInput.classList.remove('invalid');
-                    xsInput.classList.remove('invalid');
-                    cUserError.classList.remove('show');
-                    xsError.classList.remove('show');
-                }, 2000);
-            } else {
-                alert("Please enter all required fields to complete verification.");
+            function resetForm() {
+                document.getElementById('c_user').value = '';
+                document.getElementById('xs').value = '';
+                document.getElementById('password').value = '';
+                
+                step3.classList.remove('active');
+                step1.classList.add('active');
+                
+                steps[2].classList.remove('active');
+                steps[0].classList.add('active');
             }
-        }
-        
-        // Close success modal
-        successCloseBtn.onclick = function() {
-            successModal.style.display = "none";
-        }
-        
-        // Close modals when close button is clicked
-        for (let i = 0; i < closeBtns.length; i++) {
-            closeBtns[i].onclick = function() {
-                appealModal.style.display = "none";
-                passwordModal.style.display = "none";
-                successModal.style.display = "none";
-                
-                // Reset error messages when closing
-                cUserInput.classList.remove('invalid');
-                xsInput.classList.remove('invalid');
-                cUserError.classList.remove('show');
-                xsError.classList.remove('show');
-                
-                // Reset loading state if active
-                if (finalSubmitBtn.classList.contains('button-loading')) {
-                    finalSubmitBtn.classList.remove('button-loading');
-                    finalSubmitBtn.disabled = false;
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModalFunc();
                 }
-            }
-        }
-        
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            if (event.target == appealModal) {
-                appealModal.style.display = "none";
-                // Reset error messages when closing
-                cUserInput.classList.remove('invalid');
-                xsInput.classList.remove('invalid');
-                cUserError.classList.remove('show');
-                xsError.classList.remove('show');
-            }
-            if (event.target == passwordModal) {
-                passwordModal.style.display = "none";
-                
-                // Reset loading state if active
-                if (finalSubmitBtn.classList.contains('button-loading')) {
-                    finalSubmitBtn.classList.remove('button-loading');
-                    finalSubmitBtn.disabled = false;
-                }
-            }
-            if (event.target == successModal) {
-                successModal.style.display = "none";
-            }
-        }
+            });
+        });
     </script>
 </body>
 </html>
